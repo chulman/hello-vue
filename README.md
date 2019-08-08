@@ -25,5 +25,13 @@ npm run test
 npm run lint
 ```
 
+### vuex install
+```
+npm i --save vuex 
+```
+### vue-axios
+```
+npm install i --save axios vue-axios 
+```
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

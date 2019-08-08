@@ -1,32 +1,43 @@
 <template>
   <div>
-    <ul>
-      <li v-for="(todoItem, index) in propsTodoItems" v-bind:key="index" class="shadow">
+    <!--<ul>-->
+        <!--https://vuejs.org/v2/guide/transitions.html#List-Move-Transitions-->
+    <transition-group name="list" tag="ul">
+      <li v-for="(todoItem, index) in getTodoItems" v-bind:key="index" class="shadow">
         <i
           class="fas fa-check checkBtn"
           :class="{checkBtnCompleted:todoItem.completed}"
-          @click="toggleComplete(todoItem, index)"
+          @click="toggleComplete({todoItem, index})"
         ></i>
         <span :class="{textCompleted: todoItem.completed }">{{todoItem.item}}</span>
-        <span class="removeBtn" @click="removeTodo(todoItem, index)">
+        <span class="removeBtn" @click="removeTodo({todoItem, index})">
           <i class="fas fa-trash-alt"></i>
         </span>
       </li>
-    </ul>
+    </transition-group>
+    <!-- </ul> -->
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
-  props:['propsTodoItems'],
+//props: ["propsTodoItems"],
+  computed: {
+      //헬퍼 함수는 스프레드 연산자 사용해야함
+      ...mapGetters(['getTodoItems'])
+  },  
   methods: {
-    removeTodo: function(todoItem, index) {
-      this.$emit('removeEvent',todoItem, index);
-    },
-    toggleComplete(todoItem, index) {
-        this.$emit('toggleEvent',todoItem, index);
-      
-    }
+      ...mapMutations(['removeTodo', 'toggleComplete']),
+   // removeTodo: function(todoItem, index) {
+      //this.$emit("removeEvent", todoItem, index);
+     // this.$store.commit('removeTodo', {todoItem, index});
+    //},
+  //  toggleComplete(todoItem, index) {
+    //  //this.$emit("toggleEvent", todoItem, index);
+     // this.$store.commit('toggleComplete',{todoItem, index});
+   // }
   }
 };
 </script>
@@ -64,5 +75,14 @@ li {
 .textCompleted {
   text-decoration: line-through;
   color: #b3adad;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
