@@ -20,11 +20,13 @@ export default {
     TodoInput,
     TodoFooter
   },
+  /*
   data() {
     return {
       todoItems: []
     };
   },
+  */
   /*
   created() {
     if (localStorage.length > 0) {
